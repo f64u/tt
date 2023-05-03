@@ -33,7 +33,11 @@ timesZeqZ : (n : Nat) -> n * Z = Z
 timesZeqZ Z = Refl
 timesZeqZ (S k) = timesZeqZ k
 
-
+timesSeqPlustimes : (a, b : Nat) -> a + (a * b) = a * (S b)
+timesSeqPlustimes Z b = Refl
+timesSeqPlustimes (S k) b = 
+  rewrite cong S (assocFlip k b (k * b)) in
+  cong (\x => S (b + x)) (timesSeqPlustimes k b)
 
 
 main : IO ()
