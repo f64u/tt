@@ -1,8 +1,5 @@
 module Arithmetic
 
-import Data.Vect
-import Data.Fin
-
 %default total
 
 plusZeq : (n : Nat) -> n = n + Z
@@ -33,12 +30,36 @@ timesZeqZ : (n : Nat) -> n * Z = Z
 timesZeqZ Z = Refl
 timesZeqZ (S k) = timesZeqZ k
 
-timesSeqPlustimes : (a, b : Nat) -> a + (a * b) = a * (S b)
-timesSeqPlustimes Z b = Refl
-timesSeqPlustimes (S k) b = 
+timesSeqPlusTimes : (a, b : Nat) -> a + (a * b) = a * (S b)
+timesSeqPlusTimes Z b = Refl
+timesSeqPlusTimes (S k) b = 
   rewrite cong S (assocFlip k b (k * b)) in
-  cong (\x => S (b + x)) (timesSeqPlustimes k b)
+  cong (S . (b +)) (timesSeqPlusTimes k b)
+
+commTimes : (a, b : Nat) -> a * b = b * a
+commTimes Z b =
+  rewrite timesZeqZ b in
+  Refl
+commTimes (S k) b = 
+  rewrite cong (b +) (commTimes k b) in
+  timesSeqPlusTimes b k
+
+distrPlusTimes : (a, b, c : Nat) -> (a + b) * c = a * c + b * c
+distrPlusTimes Z b c = Refl
+distrPlusTimes (S k) b c = 
+  rewrite cong (c +) (distrPlusTimes k b c) in
+  assocPlus c (k * c) (b * c)
+
+distrTimesPlus : (a, b, c : Nat) -> a * (b + c) = a * b + a * c
+distrTimesPlus a b c =
+  rewrite commTimes a (b + c) in
+  rewrite distrPlusTimes b c a in
+  rewrite cong (+ (c * a)) (commTimes b a) in
+  cong ((a * b) +) (commTimes c a) 
 
 
-main : IO ()
-main = putStrLn "Hello, World"
+assocTimes : (a, b, c : Nat) -> a * (b * c) = (a * b) * c
+assocTimes Z b c = Refl
+assocTimes (S k) b c = 
+  rewrite cong ((b * c) +) (assocTimes k b c) in
+  sym (distrPlusTimes b (k * b) c)
