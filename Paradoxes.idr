@@ -20,7 +20,7 @@ set_of_sets_that_dont_contain_themselves :
     (a : Set) -> 
     (prf :(does_not_contain_itself a)) -> 
     Type
-set_of_sets_that_dont_contain_themselves s a prf = ((set_contains s Set s) = True)
+set_of_sets_that_dont_contain_themselves s a prf = ((set_contains s Set a) = True)
 
 set_of_sets_that_dont_contain_themselves_cons : 
     (s : Set) -> 
