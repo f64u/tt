@@ -3,6 +3,7 @@ module Paradoxes
 %default total
 
 contradiction : True = False -> Void
+contradiction prf = uninhabited prf
 
 Set : Type
 
