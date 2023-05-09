@@ -18,14 +18,14 @@ does_not_contain_itself_cons : (s : Set) -> (does_not_contain_itself s)
 set_of_sets_that_dont_contain_themselves : 
     (s : Set) -> 
     (a : Set) -> 
-    (prf :(does_not_contain_itself a)) -> 
+    (prf : (does_not_contain_itself a)) -> 
     Type
 set_of_sets_that_dont_contain_themselves s a prf = ((set_contains s Set a) = True)
 
 set_of_sets_that_dont_contain_themselves_cons : 
     (s : Set) -> 
     (a : Set) -> 
-    (prf :(does_not_contain_itself a)) -> 
+    (prf : (does_not_contain_itself a)) -> 
     set_of_sets_that_dont_contain_themselves s a prf
 
 russell_lem : (s : Set) -> 
