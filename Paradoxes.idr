@@ -44,5 +44,4 @@ russell =
         set_cons 
         not_in_itself 
         (set_of_sets_that_dont_contain_themselves_cons 
-            set_cons 
-            set_cons not_in_itself)
+            set_cons set_cons not_in_itself)
